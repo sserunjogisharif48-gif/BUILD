@@ -11,7 +11,12 @@ public static class DatabaseService
     public static void Initialize()
     {
         var dir = Path.GetDirectoryName(DbPath);
-        if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+        
+        if (string.IsNullOrEmpty(dir))
+            throw new InvalidOperationException("Failed to determine application data directory.");
+            
+        if (!Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
 
         using var conn = new SqliteConnection($"Data Source={DbPath}");
         conn.Open();
@@ -38,6 +43,9 @@ public static class DatabaseService
 
     public static bool IsHardwareIdAlreadyActivated(string hwid)
     {
+        if (string.IsNullOrEmpty(hwid))
+            return false;
+            
         using var conn = new SqliteConnection($"Data Source={DbPath}");
         conn.Open();
         var cmd = conn.CreateCommand();
@@ -48,6 +56,9 @@ public static class DatabaseService
 
     public static void StoreActivation(string hwid, string activationCode)
     {
+        if (string.IsNullOrEmpty(hwid) || string.IsNullOrEmpty(activationCode))
+            throw new ArgumentException("HWID and activation code cannot be empty.");
+            
         using var conn = new SqliteConnection($"Data Source={DbPath}");
         conn.Open();
         var cmd = conn.CreateCommand();
@@ -60,6 +71,9 @@ public static class DatabaseService
 
     public static bool ValidateStoredLicense(string hwid, string enteredCode)
     {
+        if (string.IsNullOrEmpty(hwid) || string.IsNullOrEmpty(enteredCode))
+            return false;
+            
         using var conn = new SqliteConnection($"Data Source={DbPath}");
         conn.Open();
         var cmd = conn.CreateCommand();
