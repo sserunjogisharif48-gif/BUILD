@@ -1,0 +1,38 @@
+name: Build Obfuscated Installer
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore src/ScholasticaReader/ScholasticaReader.csproj
+
+      - name: Build Release
+        run: dotnet build src/ScholasticaReader/ScholasticaReader.csproj -c Release --no-restore
+
+      - name: Build LicenseGenerator
+        run: dotnet build src/LicenseGenerator/LicenseGenerator.csproj -c Release --no-restore
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ScholasticaReader-Release
+          path: src/ScholasticaReader/bin/Release/
+
+      - name: Upload LicenseGenerator artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LicenseGenerator-Release
+          path: src/LicenseGenerator/bin/Release/
