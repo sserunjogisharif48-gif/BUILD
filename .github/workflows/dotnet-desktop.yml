@@ -25,5 +25,11 @@ jobs:
     - name: Restore NuGet packages
       run: dotnet restore $env:Solution_Name
 
-    - name: Build the application
+    - name: Build the application (EXE)
       run: dotnet build $env:Solution_Name --configuration Release --no-restore
+
+    - name: Upload EXE artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ScholasticaReader-EXE
+        path: src/ScholasticaReader/bin/Release/net8.0-windows/ScholasticaReader.exe
