@@ -40,19 +40,21 @@ public static class LicenseManager
         return isValid;
     }
 
-    private static async Task<bool> ValidateCodeWithServer(string hwid, string code)
+    private static Task<bool> ValidateCodeWithServer(string hwid, string code)
     {
+        // FIXED: Removed unnecessary async - this is synchronous validation
         // In production: send to your own license server.
         // For demo: we simulate using a built-in check (but you MUST run the generator tool).
         // The generator creates codes like "SCHOL-XXXX-YYYY-ZZZZ" based on HMAC.
         // We'll replicate the same HMAC verification here.
-        return VerifyCodeForHwid(hwid, code);
+        return Task.FromResult(VerifyCodeForHwid(hwid, code));
     }
 
-    private static async Task<bool> ValidateWithServer(string hwid, string code)
+    private static Task<bool> ValidateWithServer(string hwid, string code)
     {
+        // FIXED: Removed unnecessary async - this is synchronous validation
         // Weekly re-auth – same HMAC check
-        return VerifyCodeForHwid(hwid, code);
+        return Task.FromResult(VerifyCodeForHwid(hwid, code));
     }
 
     // Local HMAC verification (same as generator)
