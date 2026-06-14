@@ -23,7 +23,7 @@ public partial class App : Application
             if (!alreadyActivated || SecurityService.IsWeeklyReAuthRequired())
             {
                 // Show activation window
-                var activation = new ActivationWindow();
+                var activation = new ActivationWindow();   // or whatever your activation window class is named
                 if (activation.ShowDialog() != true)
                 {
                     Shutdown();
