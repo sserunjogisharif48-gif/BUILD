@@ -1,35 +1,26 @@
-name: .NET Core Desktop
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>false</UseWindowsForms>
+    <AssemblyName>ScholasticaReader</AssemblyName>
+    <RootNamespace>ScholasticaReader</RootNamespace>
+    <Nullable>enable</Nullable>
+    <LangVersion>12.0</LangVersion>
+  </PropertyGroup>
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="PdfSharp" Version="6.1.1" />
+    <PackageReference Include="VersOne.Epub" Version="3.3.6" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
+  </ItemGroup>
 
-jobs:
-  build:
-    runs-on: windows-latest
-
-    env:
-      Solution_Name: Scholasticareader.sln
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup .NET 8.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-
-    - name: Restore NuGet packages
-      run: dotnet restore $env:Solution_Name
-
-    - name: Build the application (EXE)
-      run: dotnet build $env:Solution_Name --configuration Release --no-restore
-
-    - name: Upload EXE artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ScholasticaReader-EXE
-        path: src/ScholasticaReader/bin/Release/net8.0-windows/ScholasticaReader.exe
+  <ItemGroup>
+    <None Update="app.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
