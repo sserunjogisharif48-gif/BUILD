@@ -14,11 +14,11 @@
 ## System Requirements
 - Windows 10 or later
 - .NET 8.0 Runtime
-- Admin privileges for first-time activation
+- Standard user privileges (no admin required)
 
 ## Build Instructions
 1. Clone the repository
-2. Open `ScholasticaReader.sln` in Visual Studio 2022+
+2. Open `Scholasticareader.sln` in Visual Studio 2022+
 3. Restore NuGet packages
 4. Build in Release mode
 5. (Optional) Obfuscate with ConfuserEx before distribution
@@ -36,3 +36,16 @@
 ### For Developers - License Generation
 ```bash
 dotnet run --project src/LicenseGenerator/LicenseGenerator.csproj
+```
+
+## Security Notes
+- Encryption uses AES-256 with random IV
+- HMAC-SHA256 for license verification
+- Hardware ID based on CPU, disk serial, and MAC address
+- Obfuscate final release with ConfuserEx
+- Change the hardcoded secret keys before deployment
+
+## Troubleshooting
+- **Database permission errors**: Ensure the app has write access to `%APPDATA%\ScholasticaReader\`
+- **Registry errors**: Run as administrator if registry write fails
+- **Activation fails**: Verify the activation code matches the generated code for the HWID

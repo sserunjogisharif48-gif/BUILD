@@ -6,7 +6,11 @@ namespace ScholasticaReader.Services;
 
 public static class DatabaseService
 {
-    private static string DbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ScholasticaReader", "app.db");
+    // FIXED: Use user-writable AppData folder instead of requiring admin
+    private static string DbPath => Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "ScholasticaReader",
+        "app.db");
 
     public static void Initialize()
     {

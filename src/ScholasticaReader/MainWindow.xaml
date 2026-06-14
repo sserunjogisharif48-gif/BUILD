@@ -41,8 +41,10 @@
 
             <!-- Center: Book View (placeholder) -->
             <Border Grid.Column="1" Background="White">
-                <WebBrowser x:Name="BookViewer" />
-                <!-- or use WebView2 for EPUB -->
+                <TextBlock x:Name="BookViewer" Text="Document Viewer Placeholder" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           Foreground="#999" FontSize="16"/>
+                <!-- TODO: Implement proper document viewer using PdfPig (PDF) or EpubReader (EPUB) -->
             </Border>
 
             <!-- Right: Annotation Panel -->
@@ -56,4 +58,4 @@
             </Border>
         </Grid>
     </DockPanel>
-</Window> 
+</Window>
