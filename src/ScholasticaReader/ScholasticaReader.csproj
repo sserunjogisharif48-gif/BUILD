@@ -6,7 +6,6 @@
     <UseWindowsForms>false</UseWindowsForms>
     <AssemblyName>ScholasticaReader</AssemblyName>
     <RootNamespace>ScholasticaReader</RootNamespace>
-    <ApplicationIcon>Assets\ReaderIcon.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
     <LangVersion>12.0</LangVersion>
   </PropertyGroup>
@@ -20,9 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\ReaderIcon.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="app.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
