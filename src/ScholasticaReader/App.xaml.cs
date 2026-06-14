@@ -1,40 +1,32 @@
-using System;
-using System.Threading.Tasks;
-using System.Windows;
-using ScholasticaReader.Services;
-using ScholasticaReader.Views;
-using ScholasticaReader.Helpers;
-
-namespace ScholasticaReader;
-
-public partial class App : Application
+protected override async void OnStartup(StartupEventArgs e)
 {
-    protected override async void OnStartup(StartupEventArgs e)
+    base.OnStartup(e);
+    
+    try
     {
-        base.OnStartup(e);
+        DatabaseService.Initialize();
+        var hwid = HardwareID.GetUniqueHardwareId();
+        var alreadyActivated = DatabaseService.IsHardwareIdAlreadyActivated(hwid);
         
-        try
+        if (!alreadyActivated || SecurityService.IsWeeklyReAuthRequired())
         {
-            DatabaseService.Initialize();
-
-            var hwid = HardwareID.GetUniqueHardwareId();
-            var alreadyActivated = DatabaseService.IsHardwareIdAlreadyActivated(hwid);
-            
-            if (!alreadyActivated || SecurityService.IsWeeklyReAuthRequired())
-            {
-                // Show activation window
-                var activation = new ActivationWindow();   // or whatever your activation window class is named
-                if (activation.ShowDialog() != true)
-                {
-                    Shutdown();
-                    return;
-                }
-            }
+            // TODO: Replace with your actual activation window
+            // var activation = new ActivationWindow();
+            // if (activation.ShowDialog() != true)
+            // {
+            //     Shutdown();
+            //     return;
+            // }
+            MessageBox.Show("Activation required (temporary bypass)");
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Startup error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            Shutdown();
-        }
+        
+        // Show main window
+        var mainWindow = new MainWindow();
+        mainWindow.Show();
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show($"Startup error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        Shutdown();
     }
 }
